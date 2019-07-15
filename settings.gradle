@@ -1,0 +1,27 @@
+def flutterProjectRoot = rootProject.projectDir.toPath()
+println  " @setting gradle  real ProjectRoot  :  "+ flutterProjectRoot;
+//def plugins = new Properties()
+//def pluginsFile = new File(flutterProjectRoot.toFile(), '.flutter-plugins')
+//if (pluginsFile.exists()) {
+//    pluginsFile.withReader('UTF-8') { reader -> plugins.load(reader) }
+//}
+//
+//plugins.each { name, path ->
+//    println  " Show name :  "+ name;
+//    def pluginDirectory = flutterProjectRoot.resolve(path).resolve('android').toFile()
+//    include ":$name"
+//    project(":$name").projectDir = pluginDirectory
+//}
+
+
+include ':android_app'
+project(":android_app").projectDir = file("./android_version/app")
+
+include ':android_library'
+project(":android_library").projectDir = file("./android_version/library")
+
+include ':java_app'
+project(":java_app").projectDir = file("./java_version/app")
+
+include ':java_library'
+project(":java_library").projectDir = file("./java_version/library")

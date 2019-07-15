@@ -1,0 +1,44 @@
+apply plugin: 'application'
+apply plugin: "java"
+apply plugin: "maven"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+def unpackedDistsDir = file("${buildDir}/distributions-unpacked")
+def distName = 'ChallengesX_JavaX'
+mainClassName = 'com.ssaurel.blockchain'
+applicationName = 'ChallengesX_JavaX'
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xbootclasspath/a:" + System.properties.get("java.home") + "/lib/rt.jar"
+    }
+}
+
+startScripts.enabled = false
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+    }
+}
+
+configurations {
+}
+
+configurations.all {
+    resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.2'
+    resolutionStrategy {
+        failOnVersionConflict()
+        preferProjectModules()
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+apply from: 'bintray.gradle'

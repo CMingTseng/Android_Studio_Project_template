@@ -1,0 +1,36 @@
+apply plugin: "java-library"
+apply plugin: "maven"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+    }
+}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xbootclasspath/a:" + System.properties.get("java.home") + "/lib/rt.jar"
+    }
+}
+
+configurations {
+}
+
+configurations.all {
+    resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.2'
+    resolutionStrategy {
+        failOnVersionConflict()
+        preferProjectModules()
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+apply from: 'bintray.gradle'
